@@ -10,7 +10,8 @@ Picthes = model.Pitches
 @app.route('/')
 def homepage():
     db.create_all()
-    return render_template('index.html')
+    user = User.query.all()
+    return render_template('index.html', user=user)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -23,12 +24,15 @@ def register():
         db.session.commit()           
         flash('Account created successfull. You can now login!', 'success')           
         return redirect(url_for('homepage'))
-        
+
     return render_template('register.html', form=form)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect(url_for('homepage'))
+        user = User.query.filter_by(email = form.email.data).first()
+        if user and check_password_hash(user.password, form.password.data):
+            flash(f'{user.username} logged in successfully', 'success')
+            return redirect(url_for('homepage'))
     return render_template('login.html', form=form)
