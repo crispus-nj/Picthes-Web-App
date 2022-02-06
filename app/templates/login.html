@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="" method="POST" style="max-width: 600px;margin:auto">
+    {{form.hidden_tag()}}
+    <legend class="border-bottom mb-4 text-center">Sign In</legend>
+    <div class="form-group">
+        {{form.email.label}}
+        {{form.email(class="form-control form-control-md")}}
+    </div>
+    <div class="form-group">
+        {{form.password.label}}
+        {{form.password(class="form-control form-control-md")}}
+    </div>
+    <div class="form-group button">
+        {{form.submit(class="btn btn-primary mt-2 ")}}
+        <small class="text-muted ms-2">Create an Account <a href="">Sign Up</a></small>
+    </div>
+</form>
+{% endblock %}
