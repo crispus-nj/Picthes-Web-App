@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, redirect, url_for, flash
 from .forms import RegisterForm, LoginForm, PitchesForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user, current_user
 from .models import model
 
 User = model.User
@@ -50,7 +50,14 @@ def account():
 def new_pitch():
     form = PitchesForm()
     if form.validate_on_submit():
-        return ""
+        pitch = Picthes(title=form.title.data,
+                        content=form.content.data,
+                        user = current_user
+                        )
+        db.session.add(pitch)
+        db.session.commit()
+        flash('Pitch created successfully!', 'success')
+        return redirect(url_for('homepage'))
 
     return render_template('new_pitch.html', form=form)
 
