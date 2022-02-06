@@ -39,6 +39,18 @@ def login():
             return redirect(url_for('homepage'))
     return render_template('login.html', form=form)
 
+
+@app.route('/account-info')
+@login_required
+def account():
+    return render_template('account.html')
+
+@app.route('/new-pitch')
+@login_required
+def new_pitch():
+    return render_template('new_pitch.html')
+
+
 @app.route('/logout')
 def logout():
     logout_user()
