@@ -34,6 +34,12 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
+            login_user(user)
             flash(f'{user.username} logged in successfully', 'success')
             return redirect(url_for('homepage'))
     return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('homepage'))
