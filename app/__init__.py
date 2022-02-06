@@ -2,6 +2,8 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from .config import DevConfig
+from flask_migrate import Migrate
+from flask_login import LoginManager
 
 # instance of the application
 app = Flask(__name__)
@@ -14,6 +16,11 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-# print(app.config['SQLALCHEMY_DATABASE_URI'])
+Migrate(app, db)
+
+# loggin configurations
+login_manager = LoginManager()
+login_manager.init_app()
+login_manager.login_view = 'login'
 
 from app import views

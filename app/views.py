@@ -1,8 +1,8 @@
 from app import app, db
 from flask import render_template, redirect, url_for, flash
 from .forms import RegisterForm, LoginForm
-from .models import model
 from werkzeug.security import generate_password_hash, check_password_hash
+from .models import model
 
 User = model.User
 Picthes = model.Pitches
