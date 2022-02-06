@@ -14,16 +14,17 @@ class RegisterForm(FlaskForm):
     confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
-    def validate_username(self):
-        '''
-        validate_username function for checking if the username is available for selection or it has already been taken
-        '''
-        pass
-    def validate_email(self):
-        '''
-        validate_email function for checking if the email is available for selection or it has already been taken
-        '''
-        pass
+    # def validate_username(self):
+    #     '''
+    #     validate_username function for checking if the username is available for selection or it has already been taken
+    #     '''
+    #     pass
+
+    # def validate_email(self):
+    #     '''
+    #     validate_email function for checking if the email is available for selection or it has already been taken
+    #     '''
+    #     pass
 
 class LoginForm(FlaskForm):
     '''
