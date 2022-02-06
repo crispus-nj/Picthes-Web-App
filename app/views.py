@@ -2,6 +2,7 @@ from app import app, db
 from flask import render_template, redirect, url_for, flash
 from .forms import RegisterForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_required, login_user, logout_user
 from .models import model
 
 User = model.User

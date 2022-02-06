@@ -1,7 +1,15 @@
-from app import db
+from app import db, login_manager
 from datetime import datetime
+from flask_login import UserMixin
 
-class User(db.Model):
+@login_manager.user_loader
+def load_user(user_id):
+    '''
+    load_user function for returning the current logged in user using the id
+    '''
+    return User.query.get(user_id)
+
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
