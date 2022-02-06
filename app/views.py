@@ -1,6 +1,6 @@
 from app import app, db
 from flask import render_template, redirect, url_for, flash
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, PitchesForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, login_user, logout_user
 from .models import model
@@ -45,10 +45,14 @@ def login():
 def account():
     return render_template('account.html')
 
-@app.route('/new-pitch')
+@app.route('/new-pitch', methods=['POST', 'GET'])
 @login_required
 def new_pitch():
-    return render_template('new_pitch.html')
+    form = PitchesForm()
+    if form.validate_on_submit():
+        return ""
+
+    return render_template('new_pitch.html', form=form)
 
 
 @app.route('/logout')
