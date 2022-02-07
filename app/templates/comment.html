@@ -4,9 +4,10 @@
 <div class="col-md-6 mt-3">
     <div class="card shadow">
         <div class="card-body">
+            <img class="rounded-circle account-img m-1 image" src="{{url_for('static', filename='images/default.png') }}" alt="profile Picture">
             <div class="card-body-title">
                <a href="{{url_for('post_comment', pitch_id=pitches.id)}}"><h5 class="card-title">{{pitches.title}}</h5></a> 
-                <h6><strong>Author:</strong><span class="text-warning">{{pitches.user.username}}</span></h6>
+                <h6 class="username"><strong>Author:</strong><span class="text-warning">{{pitches.user.username}}</span></h6>
             </div>
             <p class="card-text">{{pitches.content}}</p>
             {% if current_user.is_authenticated %}

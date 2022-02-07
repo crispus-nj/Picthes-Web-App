@@ -4,7 +4,7 @@
 <div class="conten-section-1"  style="max-width: 600px;margin:auto">
     <div class="media">
         <div class="media-img">
-            <img class="rounded-circle account-img m-1" src="{{url_for('static', filename='images/default.png') }}" alt="profile Picture">
+            <img class="rounded-circle account-img m-1 profile-image" src="{{url_for('static', filename='images/default.png') }}" alt="profile Picture">
         </div>
         <div class="media-body">
             <h2 class="account-heading">{{ current_user.username | capitalize }}</h2>
