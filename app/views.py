@@ -1,32 +1,19 @@
+from xml.etree.ElementTree import Comment
 from app import app, db
-from flask import render_template, redirect, url_for, flash
-from .forms import RegisterForm, LoginForm, PitchesForm, CommentForm
+from flask import render_template, redirect, url_for, flash, request
+from .forms import RegisterForm, LoginForm, PitchesForm, CommentForm, UpdateAccountForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 from .models import model
 
 User = model.User
 Picthes = model.Pitches
-# Comment = model.Comments
+Comment = model.Comments
 
-@app.route('/comment',  methods=['POST', 'GET'])
-def post_comment():
-
-    pitches = Picthes.query.get_or_404()
-    form = CommentForm() 
-
-    if form.validate_on_submit():
-        return redirect(url_for('homepage'))
-
-    return render_template('comment.html', form=form)
-
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/')
 def homepage():
     db.create_all()
     pitch = Picthes.query.all()
-    # form = CommentForm() 
-    # if form.validate_on_submit():
-    #     return redirect(url_for('homepage'))
     return render_template('index.html', pitch=pitch)
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -55,11 +42,6 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/account-info')
-@login_required
-def account():
-    return render_template('account.html')
-
 @app.route('/new-pitch', methods=['POST', 'GET'])
 @login_required
 def new_pitch():
@@ -77,8 +59,37 @@ def new_pitch():
     return render_template('new_pitch.html', form=form)
 
 
+@app.route('/comment/<pitch_id>',  methods=['POST', 'GET'])
+@login_required
+def post_comment(pitch_id):
 
+    pitches = Picthes.query.get_or_404(pitch_id)
+    form = CommentForm() 
 
+    if form.validate_on_submit():
+        # pitch = Picthes.query.filter_by(current_user.pitch_id).first()
+        comment = Comment(comment = form.comment.data)
+        db.session.add(comment)
+        db.session.commit()
+        print(comment)
+        return redirect(url_for('homepage'))
+
+    return render_template('comment.html', title=pitches.title , pitches=pitches,form=form)
+
+@app.route('/account',methods=['POST', 'GET'] )
+@login_required
+def account_info():
+
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        flash('Username updated successfull!', 'success')
+        db.session.commit()
+        
+    if request.method == 'GET':
+        form.username.data = current_user.username
+
+    return render_template('account.html', form=form)
 
 @app.route('/logout')
 def logout():

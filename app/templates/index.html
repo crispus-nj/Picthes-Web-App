@@ -7,13 +7,12 @@
         <div class="card shadow">
             <div class="card-body">
                 <div class="card-body-title">
-                    <h5 class="card-title">{{pitches.title}}</h5>
+                   <a href="{{url_for('post_comment', pitch_id=pitches.id)}}"><h5 class="card-title">{{pitches.title}}</h5></a> 
                     <h6><strong>Author:</strong><span class="text-warning">{{pitches.user.username}}</span></h6>
                 </div>
                 <p class="card-text">{{pitches.content}}</p>
                 {% if current_user.is_authenticated %}
                 <!-- FORM -->
-                {% include 'comment.html'%}
                 <!-- FORM -->
                 {% endif %}
                 <small class=" text-primary" style="float: right;">{{ pitches.date_time.strftime('%d-%m-%Y')  }}</small>
