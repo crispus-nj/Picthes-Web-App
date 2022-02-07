@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ title }} {% endblock %}
 {% block content %}
 <div class="col-md-6 mt-3">
     <div class="card shadow">
@@ -33,7 +33,6 @@
         </form>
             <!-- FORM -->
             {% endif %}
-
             <small class=" text-primary" style="float: right;">{{ pitches.date_time.strftime('%d-%m-%Y')}}</small>
         </div>
     </div> 
