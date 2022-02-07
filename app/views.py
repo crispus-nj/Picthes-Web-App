@@ -1,18 +1,33 @@
 from app import app, db
 from flask import render_template, redirect, url_for, flash
-from .forms import RegisterForm, LoginForm, PitchesForm
+from .forms import RegisterForm, LoginForm, PitchesForm, CommentForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 from .models import model
 
 User = model.User
 Picthes = model.Pitches
+# Comment = model.Comments
 
-@app.route('/')
+@app.route('/comment',  methods=['POST', 'GET'])
+def post_comment():
+
+    pitches = Picthes.query.get_or_404()
+    form = CommentForm() 
+
+    if form.validate_on_submit():
+        return redirect(url_for('homepage'))
+
+    return render_template('comment.html', form=form)
+
+@app.route('/', methods=['POST', 'GET'])
 def homepage():
     db.create_all()
-    user = User.query.all()
-    return render_template('index.html', user=user)
+    pitch = Picthes.query.all()
+    # form = CommentForm() 
+    # if form.validate_on_submit():
+    #     return redirect(url_for('homepage'))
+    return render_template('index.html', pitch=pitch)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -24,7 +39,7 @@ def register():
         db.session.add(user)
         db.session.commit()           
         flash('Account created successfull. You can now login!', 'success')           
-        return redirect(url_for('homepage'))
+        return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
 
@@ -60,6 +75,9 @@ def new_pitch():
         return redirect(url_for('homepage'))
 
     return render_template('new_pitch.html', form=form)
+
+
+
 
 
 @app.route('/logout')

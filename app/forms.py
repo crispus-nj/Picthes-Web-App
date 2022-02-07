@@ -47,3 +47,9 @@ class PitchesForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     submit = SubmitField('Post Pitch')
     content = TextAreaField("Content", validators=[DataRequired()])
+
+class CommentForm(FlaskForm):
+    '''
+    '''
+    comment = TextAreaField("Comment", validators=[DataRequired()])
+    submit = SubmitField('Send')

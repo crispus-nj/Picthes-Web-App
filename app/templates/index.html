@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Pitches</h1>
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi tempore quas, aut fugit atque accusamus porro architecto nisi nobis? Maxime suscipit inventore debitis itaque nihil eligendi, quia fugit voluptates labore?
-Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque quibusdam eveniet enim veritatis incidunt, sit, nobis quidem, velit ipsum quas illum aut laboriosam reiciendis recusandae. Assumenda quos ipsam numquam adipisci?
-Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque sit cumque ab, nesciunt architecto sequi consectetur incidunt, quidem placeat porro sint rem, repudiandae optio officiis. Voluptas accusantium expedita qui doloribus.
-
-{% for user in user%}
-{{user.username}}
-{% endfor %}
+<div class="row">
+    {% for pitches in pitch%}
+    <div class="col-md-6 mt-3">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="card-body-title">
+                    <h5 class="card-title">{{pitches.title}}</h5>
+                    <h6><strong>Author:</strong><span class="text-warning">{{pitches.user.username}}</span></h6>
+                </div>
+                <p class="card-text">{{pitches.content}}</p>
+                {% if current_user.is_authenticated %}
+                <!-- FORM -->
+                {% include 'comment.html'%}
+                <!-- FORM -->
+                {% endif %}
+                <small class=" text-primary" style="float: right;">{{ pitches.date_time.strftime('%d-%m-%Y')  }}</small>
+            </div>
+        </div>
+    </div>
+    
+    {% endfor %}
+</div>
 {% endblock %}

@@ -22,7 +22,13 @@ class Pitches(db.Model):
 
     __tablename__ = 'pictches'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(40), nullable=False,)
+    title = db.Column(db.String(40), nullable=False)
     content = db.Column(db.String(200), nullable=False,)
     date_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+# class Comments(db.Model):
+#     __tablename__ = 'comments'
+#     id = db.Column(db.Integer, primary_key=True)
+#     comments = db.Column(db.Text,nullable=False)
+#     pitch = db.relationship('Pitches', backref='pitch', lazy=True)
