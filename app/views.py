@@ -1,9 +1,11 @@
-from xml.etree.ElementTree import Comment
+import secrets
+import os
 from app import app, db
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, abort
 from .forms import RegisterForm, LoginForm, PitchesForm, CommentForm, UpdateAccountForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
+from PIL import Image
 from .models import model
 
 User = model.User
@@ -38,7 +40,9 @@ def login():
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             flash(f'{user.username} logged in successfully', 'success')
-            return redirect(url_for('homepage'))
+            next = request.args.get('next')
+            return redirect(next) if next else redirect(url_for('homepage'))
+            
     return render_template('login.html', form=form)
 
 
@@ -76,20 +80,46 @@ def post_comment(pitch_id):
 
     return render_template('comment.html', title=pitches.title , pitches=pitches,form=form)
 
+def save_picture(pic_data):
+    random_string = secrets.token_hex(10)
+    _, f_ext = os.path.splitext(pic_data.filename)
+    picture_filename = random_string + f_ext
+    picture_path = os.path.join(app.root_path, 'static/images', picture_filename)
+
+
+    output_size = (125, 125)
+    i = Image.open(pic_data)
+    i.thumbnail(output_size )
+
+    i.save(picture_path)
+
+    return picture_filename 
+
 @app.route('/account',methods=['POST', 'GET'] )
 @login_required
 def account_info():
 
     form = UpdateAccountForm()
-    if form.validate_on_submit():
+    image_file = url_for('static', filename='images/' + current_user.image_file)
+
+    if current_user is None:
+        abort(403)
+
+    elif form.validate_on_submit():
+        if form.image_picture.data:
+            picture = save_picture(form.image_picture.data)
+            current_user.image_file = picture
+
         current_user.username = form.username.data
-        flash('Username updated successfull!', 'success')
+       
+        flash('Account details updated successfull!', 'success')
         db.session.commit()
-        
+        return redirect(url_for('account_info'))
+
     if request.method == 'GET':
         form.username.data = current_user.username
 
-    return render_template('account.html', form=form)
+    return render_template('account.html', form=form, image_file=image_file)
 
 @app.route('/logout')
 def logout():
