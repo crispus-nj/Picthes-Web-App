@@ -1,3 +1,15 @@
+body {
+    background-color: hsl(210, 36%, 96%);;
+}
+h1 , h6{
+    color: hsl(209, 61%, 16%);
+    text-align: center;
+}
+
+.bg-dark {
+    background-color: #5f788a !important;
+    color: #fff;
+}
 .button {
     display: flex;
     align-items: center;
@@ -41,4 +53,14 @@ a:hover{
 .profile-image {
     height: 85px;
     width: 85px;  
+}
+.footer {
+    text-align: center;
+    padding: 10px;
+}
+.footer-dark {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
