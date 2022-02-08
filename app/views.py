@@ -12,7 +12,7 @@ User = model.User
 Picthes = model.Pitches
 Comment = model.Comments
 
-@app.route('/')
+@app.route('/', methods=[ 'POST', 'GET'])
 def homepage():
     db.create_all()
     pitch = Picthes.query.all()
@@ -79,6 +79,37 @@ def post_comment(pitch_id):
         return redirect(url_for('homepage'))
 
     return render_template('comment.html', title=pitches.title , pitches=pitches,form=form)
+
+@app.route('/comment/<pitch_id>/update-pitch', methods=['POST', 'GET'])
+@login_required
+def update_post(pitch_id):
+
+    pitches = Picthes.query.get_or_404(pitch_id)
+    form = PitchesForm()
+
+    if form.validate_on_submit():
+        pitches.title = form.title.data
+        pitches.content = form.content.data
+        db.session.commit()
+        
+        flash('Pitch updated successull!', 'success')
+        return redirect(url_for('comment.html',  pitch_id = pitches.id))
+
+    if request.method == 'GET':
+
+        form.title.data = pitches.title
+        form.content.data = pitches.content
+
+    return render_template('update_pitch.html', form=form, pitches=pitches)
+
+@app.route('/comment/<pitch_id>/delete-pitch')
+@login_required
+def delete_post(pitch_id):
+    pitches = Picthes.query.get_or_404(pitch_id)
+    db.session.delete(pitches)
+    db.session.commit()
+    flash('Post delete successfull!', 'success')
+    return redirect(url_for('homepage'))
 
 def save_picture(pic_data):
     random_string = secrets.token_hex(10)

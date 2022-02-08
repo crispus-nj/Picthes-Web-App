@@ -1,5 +1,7 @@
+import os
+
 class Config:
-    pass
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
 class ProdConfig(Config):
     pass
 class DevConfig(Config):
