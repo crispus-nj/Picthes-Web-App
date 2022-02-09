@@ -152,6 +152,12 @@ def account_info():
 
     return render_template('account.html', form=form, image_file=image_file)
 
+
+@app.route('/about-us')
+def about_us():
+    return render_template('about.html')
+
+
 @app.route('/logout')
 def logout():
     logout_user()

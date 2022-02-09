@@ -73,3 +73,17 @@ a:hover{
 legend {
     margin-top: 1rem;
 }
+.image-img {
+    vertical-align: middle;
+    height: 500px;
+    width: 500px;
+    border-radius: 50%;
+}
+.about-us {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+li {
+    list-style-type: none;
+}

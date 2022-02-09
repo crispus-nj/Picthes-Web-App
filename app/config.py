@@ -2,6 +2,6 @@ import os
 class Config:
     pass
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:blog@localhost/pitches'
 class DevConfig(Config):
     DEBUG = True
