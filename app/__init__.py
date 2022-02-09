@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 # dev configurations
 app.config.from_object(DevConfig)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = '6e5591dabc255f7d'
 
 # Database configurations
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://moringa:blog@localhost/pitches'
