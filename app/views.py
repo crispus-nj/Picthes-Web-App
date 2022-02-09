@@ -12,9 +12,7 @@ User = model.User
 Picthes = model.Pitches
 Comment = model.Comments
 
-# @app.before_first_request
-# def create_user():
-#     db.create_all()
+
 
 @app.route('/', methods=[ 'POST', 'GET'])
 def homepage():

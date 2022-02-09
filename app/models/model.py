@@ -1,6 +1,7 @@
 from app import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash,check_password_hash
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -18,6 +19,15 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(200))
     pitches = db.relationship('Pitches', backref='user', lazy=True)
 
+    def __init__(self, username , email, password):
+        self.username = username
+        self.email = email
+        self.password = generate_password_hash(password)
+
+    def validate_user(self, password):
+        return check_password_hash(self.password, password)
+
+
 class Pitches(db.Model):
 
     __tablename__ = 'pictches'
@@ -27,9 +37,12 @@ class Pitches(db.Model):
     date_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
+    def __init__(self, title, content):
+        self.title = title
+        self.content = content
+
 
 class Comments(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     comment = db.Column(db.Text, nullable=False,)
-    # pitches_id = db.Column(db.Text, db.ForeignKey('pictches.id'), nullable=False)

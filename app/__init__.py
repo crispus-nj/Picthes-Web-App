@@ -9,11 +9,11 @@ from flask_login import LoginManager
 app = Flask(__name__)
 
 # dev configurations
-app.config.from_object(ProdConfig)
+app.config.from_object(DevConfig)
 app.config['SECRET_KEY'] = '6e5591dabc255f7d'
 
 # Database configurations
-app.config['SQLALCHEMY_DATABASE_URI']  
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://moringa:blog@localhost/pitches'
 # = 'postgresql+psycopg2://moringa:blog@localhost/pitches'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
