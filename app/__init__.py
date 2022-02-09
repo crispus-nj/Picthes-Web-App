@@ -13,11 +13,12 @@ app.config.from_object(ProdConfig)
 app.config['SECRET_KEY'] = '6e5591dabc255f7d'
 
 # Database configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://moringa:blog@localhost/pitches'
+app.config['SQLALCHEMY_DATABASE_URI']  
+# = 'postgresql+psycopg2://moringa:blog@localhost/pitches'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 Migrate(app, db)
-# print(app.config['SQLALCHEMY_DATABASE_URI'])
+print(app.config['SQLALCHEMY_DATABASE_URI'])
 # loggin configurations
 login_manager = LoginManager()
 login_manager.init_app(app)
