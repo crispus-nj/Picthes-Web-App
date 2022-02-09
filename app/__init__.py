@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from .config import DevConfig
+from .config import DevConfig, ProdConfig
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
@@ -9,7 +9,7 @@ from flask_login import LoginManager
 app = Flask(__name__)
 
 # dev configurations
-app.config.from_object(DevConfig)
+app.config.from_object(ProdConfig)
 app.config['SECRET_KEY'] = '6e5591dabc255f7d'
 
 # Database configurations
