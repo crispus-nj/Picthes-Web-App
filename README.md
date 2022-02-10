@@ -11,7 +11,7 @@
 Incase of any question or want to add some new features to the project. Contact me through the following to be added as a collaborator.
 
     1.Phone Number: 254716554593
-    2.Email: njengacris250@gmail.com
+    2.Email: njengacr50@gmail.com
 ## Set up and installations
 * Clone the project
 * install the virtual environment on the project root folder:
